@@ -35,6 +35,7 @@ BackupManager.prototype.init = function(){
     var influx = self.influx = new Influx.InfluxDB({
       host: config.host,
       port: config.port,
+      database: config.db,
       username: config.username,
       password: config.password,
     });
@@ -64,7 +65,7 @@ BackupManager.prototype.init = function(){
   })
 }
 
-BackupManager.prototype.createTmpFolder = function(){
+BackupManager.prototype.createDir = function(){
   var self = this;
   var config = this.config;
 
@@ -74,6 +75,10 @@ BackupManager.prototype.createTmpFolder = function(){
     .then(() => resolve(dir))
     .catch(reject)
   });
+}
+
+BackupManager.prototype.deleteDir = function(path){
+  return utils.removeDirectory(path);
 }
 
 
@@ -96,9 +101,9 @@ BackupManager.prototype.backup = function(options){
     if(options.start) start = (new Date(options.start)).toISOString();
     if(options.end) end = (new Date(options.end)).toISOString();
 
-    self.createTmpFolder()
+    self.createDir()
     .then((dir) => { //spawn a process for the backup
-      
+
       backup_dir = dir;
 
       var args = `backup -portable -database ${config.db} -host ${config.host}:${config.backupPort}`;

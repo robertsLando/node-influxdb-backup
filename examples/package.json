@@ -1,0 +1,16 @@
+{
+  "name": "influx-backup-express",
+  "version": "0.0.0",
+  "description": "Example of a backup/restore with Express",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "influx": "^5.0.7",
+    "multer": "^1.4.1"
+  }
+}
