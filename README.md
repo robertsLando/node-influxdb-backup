@@ -28,7 +28,7 @@ Run the following command in the root directory of your project
 
 # Usage
 
-Check [here](https://robertslando.github.io/influx-backup/) and the example in [examples](https://github.com/robertsLando/influx-backup/tree/master/examples) folder
+Check [here](https://robertslando.github.io/node-influxdb-backup/) and the example in [examples](https://github.com/robertsLando/influx-backup/tree/master/examples) folder
 
 Here are some lines from `examples/app.js`
 
