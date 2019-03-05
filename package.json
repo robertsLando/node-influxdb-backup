@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "example": "DEBUG=influx-backup:* node examples/app.js",
     "docs": "documentation build src/** -f html -o docs",
-    "docs-serve": "documentation serve src/** -f html"
+    "docs-serve": "documentation serve --watch src/** -f html"
   },
   "repository": {
     "type": "git",
