@@ -28,11 +28,14 @@ Run the following command in the root directory of your project
 
 # Usage
 
-Check [here](https://robertslando.github.io/node-influxdb-backup/) and the example in [examples](https://github.com/robertsLando/influx-backup/tree/master/examples) folder
+Check JSDocs [here](https://robertslando.github.io/node-influxdb-backup/) and the Express example in [examples](https://github.com/robertsLando/node-influxdb-backup/tree/master/examples) folder
 
 Here are some lines from `examples/app.js`
 
 ```javascript
+
+const BackupManager = require('influx-backup');
+
 const TEST_DB = "testDB";
 
 const manager = new BackupManager({db: TEST_DB});
@@ -51,10 +54,10 @@ app.post('/restore', (req, res) => {
     // Use multer to get the file from the req
     // and store it in the temp dir created
     var Storage = multer.diskStorage({
-        destination: restore_path,
-        filename: function(req, file, callback) {
-            callback(null, file.originalname);
-        }
+      destination: restore_path,
+      filename: function(req, file, callback) {
+        callback(null, file.originalname);
+      }
     });
 
     // "restore" is the name attr of input file in html
@@ -63,18 +66,18 @@ app.post('/restore', (req, res) => {
     return multerPromise(upload, req, res)
   })
   .then((file) => {
-      //now the file is stored correctly, I can start the restore command
+    //now the file is stored correctly, I can start the restore command
     if(file){
-        return manager.restore(restore_path, file.originalname)
+      return manager.restore(restore_path, file.originalname)
     }else{
-        throw Error("No file provided");
+      throw Error("No file provided");
     }
-}) //the backup has been restored in a backup database, load the backup in the main database
+  }) //the backup has been restored in a backup database, load the backup in the main database
   .then(() => manager.loadBackup())
   .then(() => res.json({success:true, message: "Backup restored successfully"}))
   .catch(err => {
-      console.log(err);
-      res.json({success:false, message: err.message})
+    console.log(err);
+    res.json({success:false, message: err.message})
   });
 });
 
@@ -83,7 +86,7 @@ app.get('/backup', (req, res) => {
 
   manager.backup()
   .then((file) => {
-     //zip file is ready, send it to the client
+    //zip file is ready, send it to the client
     var stream = fs.createReadStream(file);
 
     res.setHeader('Content-disposition', 'attachment; filename=' + file.split('/').pop());
