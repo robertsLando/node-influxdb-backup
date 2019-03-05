@@ -1,4 +1,4 @@
-const BackupManager = require('../');
+const BackupManager = require('../src');
 const app = require('express')();
 const multer = require('multer');
 const fs = require('fs');
