@@ -12,6 +12,12 @@ const logger = require('debug')('influx-backup:BackupManager');
 /**
  * Backup manager instance
  * @constructor
+ * @param {String} [config.host=localhost] Host url where influxdb is running.
+ * @param {Number} [config.port=8086] InfluxDB port.
+ * @param {String} [config.tmp_folder=.tmp] Temporary folder path.
+ * @param {String} [config.suffix=_bak] Backup database suffix.
+ * @param {String} [config.retation=autogen] InfluxDB retation policy to backup.
+ * @param {Number} [config.port=8088] InfluxDB backup port.
  */
 function BackupManager(config){
 
