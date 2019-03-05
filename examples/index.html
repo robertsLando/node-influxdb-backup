@@ -27,9 +27,97 @@ button[type=submit] {
 div {
     border-radius: 5px;
     background-color: #f2f2f2;
-    padding: 20px;
+    padding: 5px;
+}
+
+.loader {
+  border: 5px solid #f3f3f3; /* Light grey */
+  border-top: 5px solid #3498db; /* Blue */
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
   </style>
+  <script>
+  function clearDB(event){
+    var xhr = new XMLHttpRequest();
+    xhr.open("DELETE", '/test', true);
+    xhr.onload = function () {
+      var response = JSON.parse(xhr.responseText);
+      if (xhr.readyState == 4 && xhr.status == "200") {
+        alert(response.message)
+        document.getElementById("data").value = '';
+      } else {
+        console.error(response);
+      }
+    }
+    xhr.send(null);
+  }
+  function getData(event){
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", '/test', true);
+    xhr.onload = function () {
+      var response = JSON.parse(xhr.responseText);
+      if (xhr.readyState == 4 && xhr.status == "200") {
+        console.table(response.data)
+        if(response.data.length > 0)
+        document.getElementById("data").value = response.data.map(d => d.time + ': ' + d.value).join('\n');
+        else document.getElementById("data").value = "No data found in DB"
+      } else {
+        console.error(response);
+      }
+    }
+    xhr.send(null);
+  }
+  function createDb(event){
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", '/test', true);
+    xhr.onload = function () {
+      var response = JSON.parse(xhr.responseText);
+      if (xhr.readyState == 4 && xhr.status == "200") {
+        alert(response.message)
+      } else {
+        console.error(response);
+      }
+    }
+    xhr.send(null);
+  }
+  function restoreBackup(){
+    var fileInput = document.getElementById("backupFile");
+    var loader = document.getElementById("loadBar");
+
+    var xhr = new XMLHttpRequest();
+
+    if(fileInput.files.length == 0){
+      alert("No file selected");
+      return;
+    }
+
+    var formData = new FormData();
+    formData.append("restore", fileInput.files[0]);
+
+    loadBar.style.display = 'inline-block';
+
+    xhr.open("POST", '/restore', true);
+    xhr.onload = function () {
+      loadBar.style.display = 'none';
+      var response = JSON.parse(xhr.responseText);
+      if (xhr.readyState == 4 && xhr.status == "200") {
+        alert(response.message)
+      } else {
+        console.error(response);
+      }
+    }
+
+    xhr.send(formData);
+  }
+  </script>
 </head>
 <body>
 
@@ -38,18 +126,15 @@ div {
   <h1>Node Influx Backup-Restore</h1>
 
   <h2>Backup</h2>
-  <a href="/backup" target="_blank"><button>Backup</button></a>
+    <a href="/backup" target="_blank"><button>Backup</button></a>
   <h2>Restore</h2>
-  <form action="/restore" enctype="multipart/form-data" method="post">
-    <input type="file" name="restore">
-    <input type="submit" value="Restore">
-  </form>
+    <input type="file" id="backupFile" name="restore">
+    <button onclick="restoreBackup()">Restore DB</button>
+    <div style="display:none;" id="loadBar" class="loader"></div>
   <h2>Test</h2>
-  <a href="/test" target="_blank"><button>Show test DB</button></a>
-  <form action="/test" method="post">
-    <input type="submit" value="Create test DB">
-  </form>
-  <form action="/test" method="delete">
-    <input type="submit" value="Drop test DB">
-  </form>
+    <button onclick="getData()">Show test DB</button>
+    <button onclick="createDb()">Create test DB</button>
+    <button onclick="clearDB()">Clear test DB</button>
+  </br>
+    <textarea style="width:100%;max-width:350px;height:500px;margin-top:20px" id="data"></textarea>
 <hr>

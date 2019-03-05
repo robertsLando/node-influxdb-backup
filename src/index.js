@@ -13,12 +13,12 @@ const logger = require('debug')('influx-backup:BackupManager');
  * Backup manager instance
  * @constructor
  * @param {Object} config Manager object configuration.
- * @param {String} [config.host=localhost] Host url where influxdb is running.
- * @param {Number} [config.port=8086] InfluxDB port.
- * @param {String} [config.tmp_folder=.tmp] Temporary folder path.
- * @param {String} [config.suffix=_bak] Backup database suffix.
- * @param {String} [config.retation=autogen] InfluxDB retation policy to backup.
- * @param {Number} [config.port=8088] InfluxDB backup port.
+ * @param {string} [config.host=localhost] Host url where influxdb is running.
+ * @param {number} [config.port=8086] InfluxDB port.
+ * @param {string} [config.tmp_folder=.tmp] Temporary folder path.
+ * @param {string} [config.suffix=_bak] Backup database suffix.
+ * @param {string} [config.retation=autogen] InfluxDB retation policy to backup.
+ * @param {number} [config.port=8088] InfluxDB backup port.
  */
 function BackupManager(config){
 
@@ -28,7 +28,7 @@ function BackupManager(config){
 
   config.host = config.host || 'localhost';
   config.port = config.port || 8086;
-  config.tmp_folder = config.tmp_folder || path.join(require('app-root-path').toString(), '.tmp');
+  config.tmp_folder = config.tmp_folder || path.join(require('app-root-path').tostring(), '.tmp');
 
   config.suffix = config.suffix || '_bak';
   config.retation = config.retation || 'autogen';
@@ -39,7 +39,7 @@ function BackupManager(config){
 
 /**
  * Inits the backup manager, checks influxDB version and creates
- * the temprary files folder (if doesn't exists)
+ * the temporary files folder (if doesn't exists)
  */
 BackupManager.prototype.init = function(){
   var self = this;
@@ -102,7 +102,7 @@ BackupManager.prototype.createDir = function(){
 
 /**
  * Deletes a directory and all its content
- * @returns {Promise.<Boolean>} a promise object that resolves if dir is correctly deleted
+ * @returns {Promise.<boolean>} a promise object that resolves if dir is correctly deleted
  */
 BackupManager.prototype.deleteDir = function(path){
   return utils.removeDirectory(path);
@@ -110,7 +110,7 @@ BackupManager.prototype.deleteDir = function(path){
 
 /**
  * Starts a backups
- * @returns {Promise.<String>} a promise object with the path to the backup zip file
+ * @returns {Promise.<string>} a promise object with the path to the backup zip file
  */
 BackupManager.prototype.backup = function(options){
 
@@ -128,8 +128,8 @@ BackupManager.prototype.backup = function(options){
 
     var backup_dir, start, end;
 
-    if(options.start) start = (new Date(options.start)).toISOString();
-    if(options.end) end = (new Date(options.end)).toISOString();
+    if(options.start) start = (new Date(options.start)).toISOstring();
+    if(options.end) end = (new Date(options.end)).toISOstring();
 
     self.createDir()
     .then((dir) => { //spawn a process for the backup
@@ -160,7 +160,7 @@ BackupManager.prototype.backup = function(options){
         if(start) zip_name += "_" + start.slice(0,10).replace(/-/g,"");
 
         if(end) zip_name += "_" + end.slice(0,10).replace(/-/g,"");
-        else zip_name += "_" + (new Date()).toISOString().slice(0,10).replace(/-/g,"");
+        else zip_name += "_" + (new Date()).toISOstring().slice(0,10).replace(/-/g,"");
       }
 
       var download_path = `${backup_dir}/${zip_name}.zip`;
@@ -197,7 +197,7 @@ BackupManager.prototype.backup = function(options){
 
 /**
  * Sideload a backup database to the existing database
- * @returns {Promise.<Boolean>} a promise object that resolves once the database is correctly loaded
+ * @returns {Promise.<boolean>} a promise object that resolves once the database is correctly loaded
  */
 BackupManager.prototype.loadBackup = function(){
 
@@ -229,9 +229,9 @@ BackupManager.prototype.loadBackup = function(){
 
 /**
  * Starts a restore
- * @param {String} restore_path The directory path of the backup zip file
- * @param {String} fileName Name of backup the zip file
- * @returns {Promise.<String>} a promise object that resolves once the influxd restore
+ * @param {string} restore_path The directory path of the backup zip file
+ * @param {string} fileName Name of backup the zip file
+ * @returns {Promise.<string>} a promise object that resolves once the influxd restore
  * restore command has load all datas in the backup database
  */
 BackupManager.prototype.restore = function(restore_path, fileName){
@@ -260,8 +260,8 @@ BackupManager.prototype.restore = function(restore_path, fileName){
       var args = `restore -portable -db ${config.db} -newdb ${config.db + config.suffix} -host ${config.host}:${config.backupPort}`;
 
       // add period if valid (feature not aviable yet on influx)
-      // if(start) start = (new Date(start)).toISOString();
-      // if(end) end = (new Date(end)).toISOString();
+      // if(start) start = (new Date(start)).toISOstring();
+      // if(end) end = (new Date(end)).toISOstring();
 
       // if(start)
       //   args += ` -start ${start}`;
@@ -292,9 +292,9 @@ BackupManager.prototype.restore = function(restore_path, fileName){
 
 /**
  * Creates a queue for influxd commands
- * @param {String} path The cwd path of influxd command (the directory where the command will be executed)
+ * @param {string} path The cwd path of influxd command (the directory where the command will be executed)
  * @param {Array} args Array of args to pass to the influxd command
- * @returns {Promise.<Boolean>} a promise object that resolves once the influxd command has finished
+ * @returns {Promise.<boolean>} a promise object that resolves once the influxd command has finished
  */
 function influxd(path, args){
   var self = this;
@@ -313,7 +313,7 @@ function influxd(path, args){
 
 /**
  * Spawn an influxd process and calls resolve once ended
- * @param {String} path The cwd path of influxd command (the directory where the command will be executed)
+ * @param {string} path The cwd path of influxd command (the directory where the command will be executed)
  * @param {Array} args Array of args to pass to the influxd command
  * @param {Function} resolve Function to call once the command has finished
  * @param {Function} reject Function to call in case of errors
@@ -333,12 +333,12 @@ function spawnProcess(path, args, resolve, reject){
   logger('Influxd command started: influxd', args);
 
   self.influxd.stdout.on('data', (data) => {
-    logger(data.toString());
+    logger(data.tostring());
   });
 
   self.influxd.stderr.on('data', (data) => {
     self.influxd.kill();
-    err = data.toString();
+    err = data.tostring();
   });
 
   self.influxd.on('error', (e) => {
@@ -363,8 +363,8 @@ function spawnProcess(path, args, resolve, reject){
 
 /**
  * Drops an influx database (if it exists)
- * @param {String} name The database name
- * @returns {Promise.<Boolean>} A priomise object that resolves once the db is deleted correctly
+ * @param {string} name The database name
+ * @returns {Promise.<boolean>} A priomise object that resolves once the db is deleted correctly
  * or even if it doesn't exists
  */
 BackupManager.prototype.dropDatabase = function(name){
