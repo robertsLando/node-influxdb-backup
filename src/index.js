@@ -28,7 +28,7 @@ function BackupManager(config){
 
   config.host = config.host || 'localhost';
   config.port = config.port || 8086;
-  config.tmp_folder = config.tmp_folder || path.join(require('app-root-path').tostring(), '.tmp');
+  config.tmp_folder = config.tmp_folder || path.join(require('app-root-path').toString(), '.tmp');
 
   config.suffix = config.suffix || '_bak';
   config.retation = config.retation || 'autogen';
@@ -128,8 +128,8 @@ BackupManager.prototype.backup = function(options){
 
     var backup_dir, start, end;
 
-    if(options.start) start = (new Date(options.start)).toISOstring();
-    if(options.end) end = (new Date(options.end)).toISOstring();
+    if(options.start) start = (new Date(options.start)).toISOString();
+    if(options.end) end = (new Date(options.end)).toISOString();
 
     self.createDir()
     .then((dir) => { //spawn a process for the backup
@@ -160,7 +160,7 @@ BackupManager.prototype.backup = function(options){
         if(start) zip_name += "_" + start.slice(0,10).replace(/-/g,"");
 
         if(end) zip_name += "_" + end.slice(0,10).replace(/-/g,"");
-        else zip_name += "_" + (new Date()).toISOstring().slice(0,10).replace(/-/g,"");
+        else zip_name += "_" + (new Date()).toISOString().slice(0,10).replace(/-/g,"");
       }
 
       var download_path = `${backup_dir}/${zip_name}.zip`;
@@ -260,8 +260,8 @@ BackupManager.prototype.restore = function(restore_path, fileName){
       var args = `restore -portable -db ${config.db} -newdb ${config.db + config.suffix} -host ${config.host}:${config.backupPort}`;
 
       // add period if valid (feature not aviable yet on influx)
-      // if(start) start = (new Date(start)).toISOstring();
-      // if(end) end = (new Date(end)).toISOstring();
+      // if(start) start = (new Date(start)).toISOString();
+      // if(end) end = (new Date(end)).toISOString();
 
       // if(start)
       //   args += ` -start ${start}`;
@@ -333,12 +333,12 @@ function spawnProcess(path, args, resolve, reject){
   logger('Influxd command started: influxd', args);
 
   self.influxd.stdout.on('data', (data) => {
-    logger(data.tostring());
+    logger(data.toString());
   });
 
   self.influxd.stderr.on('data', (data) => {
     self.influxd.kill();
-    err = data.tostring();
+    err = data.toString();
   });
 
   self.influxd.on('error', (e) => {
