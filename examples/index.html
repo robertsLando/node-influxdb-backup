@@ -35,11 +35,21 @@ div {
 
 <div>
 
+  <h1>Node Influx Backup-Restore</h1>
+
   <h2>Backup</h2>
   <a href="/backup" target="_blank"><button>Backup</button></a>
   <h2>Restore</h2>
   <form action="/restore" enctype="multipart/form-data" method="post">
     <input type="file" name="restore">
     <input type="submit" value="Restore">
+  </form>
+  <h2>Test</h2>
+  <a href="/test" target="_blank"><button>Show test DB</button></a>
+  <form action="/test" method="post">
+    <input type="submit" value="Create test DB">
+  </form>
+  <form action="/test" method="delete">
+    <input type="submit" value="Drop test DB">
   </form>
 <hr>

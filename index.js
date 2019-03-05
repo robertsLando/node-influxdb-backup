@@ -9,6 +9,10 @@ const path = require('path');
 
 const logger = require('debug')('influx-backup:BackupManager');
 
+/**
+ * Backup manager instance
+ * @constructor
+ */
 function BackupManager(config){
 
   if (!(this instanceof BackupManager)) {
@@ -26,6 +30,10 @@ function BackupManager(config){
   this.config = config;
 }
 
+/**
+ * Inits the backup manager, checks influxDB version and creates
+ * the temprary files folder (if doesn't exists)
+ */
 BackupManager.prototype.init = function(){
   var self = this;
   var config = this.config;
@@ -65,6 +73,10 @@ BackupManager.prototype.init = function(){
   })
 }
 
+/**
+ * Creates an empty directory in temporary folder
+ * @returns {Promise} a promise object with the path to the directory created
+ */
 BackupManager.prototype.createDir = function(){
   var self = this;
   var config = this.config;
@@ -77,11 +89,18 @@ BackupManager.prototype.createDir = function(){
   });
 }
 
+/**
+ * Deletes a directory and all its content
+ * @returns {Promise.<Boolean>} a promise object that resolves if dir is correctly deleted
+ */
 BackupManager.prototype.deleteDir = function(path){
   return utils.removeDirectory(path);
 }
 
-
+/**
+ * Starts a backups
+ * @returns {Promise.<String>} a promise object with the path to the backup zip file
+ */
 BackupManager.prototype.backup = function(options){
 
   if(!this.inited){
@@ -165,6 +184,10 @@ BackupManager.prototype.backup = function(options){
   });
 };
 
+/**
+ * Sideload a backup database to the existing database
+ * @returns {Promise.<Boolean>} a promise object that resolves once the database is correctly loaded
+ */
 BackupManager.prototype.loadBackup = function(){
 
   if(!this.inited){
@@ -193,6 +216,13 @@ BackupManager.prototype.loadBackup = function(){
   })
 }
 
+/**
+ * Starts a restore
+ * @param {String} restore_path The directory path of the backup zip file
+ * @param {String} fileName Name of backup the zip file
+ * @returns {Promise.<String>} a promise object that resolves once the influxd restore
+ * restore command has load all datas in the backup database
+ */
 BackupManager.prototype.restore = function(restore_path, fileName){
 
   if(!this.inited){
@@ -249,7 +279,12 @@ BackupManager.prototype.restore = function(restore_path, fileName){
 
 };
 
-
+/**
+ * Creates a queue for influxd commands
+ * @param {String} path The cwd path of influxd command (the directory where the command will be executed)
+ * @param {Array} args Array of args to pass to the influxd command
+ * @returns {Promise.<Boolean>} a promise object that resolves once the influxd command has finished
+ */
 function influxd(path, args){
   var self = this;
 
@@ -265,6 +300,13 @@ function influxd(path, args){
     });
 }
 
+/**
+ * Spawn an influxd process and calls resolve once ended
+ * @param {String} path The cwd path of influxd command (the directory where the command will be executed)
+ * @param {Array} args Array of args to pass to the influxd command
+ * @param {Function} resolve Function to call once the command has finished
+ * @param {Function} reject Function to call in case of errors
+ */
 function spawnProcess(path, args, resolve, reject){
 
   var self = this;
@@ -308,6 +350,12 @@ function spawnProcess(path, args, resolve, reject){
   });
 }
 
+/**
+ * Drops an influx database (if it exists)
+ * @param {String} name The database name
+ * @returns {Promise.<Boolean>} A priomise object that resolves once the db is deleted correctly
+ * or even if it doesn't exists
+ */
 BackupManager.prototype.dropDatabase = function(name){
 
   if(!this.inited){

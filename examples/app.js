@@ -6,6 +6,11 @@ const path = require('path');
 const Influx = require('influx');
 const bodyParser= require('body-parser');
 
+const TEST_DB = "testDB";
+
+const manager = new BackupManager({db: TEST_DB});
+
+
 app.use(bodyParser.urlencoded({extended: true}))
 
 // Promisify multer
@@ -25,23 +30,23 @@ function getRandomDate() {
     return new Date(from + Math.random() * (to - from));
 }
 
+// Init Influx db connection
 const influx = new Influx.InfluxDB({
   host: 'localhost',
-  database: 'testDB'
+  database: TEST_DB
 });
 
-
+// Main page
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
 
+// Restore DB api
 app.post('/restore', (req, res) => {
 
   var restore_path = "";
-  var manager = new BackupManager({db: 'testDB'});
 
-  manager.init()
-  .then(() => manager.createDir())
+  manager.createDir()
   .then((dir) => {
 
     restore_path = dir;
@@ -53,7 +58,8 @@ app.post('/restore', (req, res) => {
         }
     });
 
-    var upload = multer({storage: Storage}).single("restore"); // restore is the name of input file in html
+    // "restore" is the name attr of input file in html
+    var upload = multer({storage: Storage}).single("restore");
 
     return multerPromise(upload, req, res)
   })
@@ -72,28 +78,26 @@ app.post('/restore', (req, res) => {
   });
 });
 
+// Backup DB api
 app.get('/backup', (req, res) => {
 
-  var manager = new BackupManager({db: 'testDB'});
-
-  manager.init()
-  .then(() => manager.backup())
+  manager.backup()
   .then((file) => {
-      var stream = fs.createReadStream(file);
+    var stream = fs.createReadStream(file);
 
-      res.setHeader('Content-disposition', 'attachment; filename=' + file.split('/').pop());
+    res.setHeader('Content-disposition', 'attachment; filename=' + file.split('/').pop());
 
-      stream.once("close", function () {
-          stream.destroy(); // makesure stream closed, not close if download aborted.
-          //remove backup files and zip
-          manager.deleteDir(path.dirname(file));
-      });
+    stream.once("close", function () {
+      stream.destroy(); // makesure stream closed, not close if download aborted.
+      //remove backup files and zip
+      manager.deleteDir(path.dirname(file));
+    });
 
-      stream.pipe(res);
+    stream.pipe(res);
   })
   .catch(err => {
-     res.json({success: false, message: err})
- });
+    res.json({success: false, message: err});
+  });
 
 });
 
@@ -120,6 +124,7 @@ app.post('/test', (req, res) => {
   })
 })
 
+// Get test points
 app.get('/test', (req, res) => {
   influx.query(`select time, value from test`)
   .then((rows) => {
@@ -131,13 +136,27 @@ app.get('/test', (req, res) => {
   })
 })
 
-// Check testDB exists, if not create one and start app on port 8000
+// Clear all points
+app.delete('/test', (req, res) => {
+  manager.dropDatabase(TEST_DB)
+  .then(() => influx.createDatabase(TEST_DB))
+  .then(() => {
+    res.json({success: true, message: "Database cleared"});
+  })
+  .catch(err => {
+    console.error(err);
+    res.json({success:false, message: err.message})
+  })
+})
+
+// Check testDB exists, if not create one and start app listening on port 8000
 influx.getDatabaseNames()
 .then(names => {
-  if (!names.includes('testDB')) {
-    return influx.createDatabase('testDB')
+  if (!names.includes(TEST_DB)) {
+    return influx.createDatabase(TEST_DB)
   }
 })
+.then(() => manager.init())
 .then(() => {
   app.listen(8000, function () {
     console.log('Listening on port 8000')
