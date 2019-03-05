@@ -1,6 +1,6 @@
 {
   "name": "influx-backup",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Influxdb backup/restore helper",
   "main": "./src/index.js",
   "scripts": {
