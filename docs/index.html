@@ -131,7 +131,7 @@
   </div>
   
 
-  <p>Backup manager instance</p>
+  <p>Backup manager instance.</p>
 
     <div class='pre p1 fill-light mt0'>new BackupManager(config: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a>)</div>
   
@@ -269,7 +269,7 @@
   
 
   <p>Inits the backup manager, checks influxDB version and creates
-the temporary files folder (if doesn't exists)</p>
+the temporary files folder (if doesn't exists).</p>
 
     <div class='pre p1 fill-light mt0'>init()</div>
   
@@ -316,7 +316,7 @@ the temporary files folder (if doesn't exists)</p>
 
   
 
-  <p>Creates an empty directory in temporary folder</p>
+  <p>Creates an empty directory in temporary folder.</p>
 
     <div class='pre p1 fill-light mt0'>createDir(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></div>
   
@@ -337,7 +337,7 @@ the temporary files folder (if doesn't exists)</p>
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a></code>:
-        A promise object with the path to the directory created
+        A promise object with the path to the directory created.
 
       
     
@@ -371,7 +371,7 @@ the temporary files folder (if doesn't exists)</p>
 
   
 
-  <p>Deletes a directory and all its content</p>
+  <p>Deletes a directory and all its content.</p>
 
     <div class='pre p1 fill-light mt0'>deleteDir(path: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></div>
   
@@ -405,7 +405,7 @@ the temporary files folder (if doesn't exists)</p>
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></code>:
-        A promise object that resolves if dir is correctly deleted
+        A promise object that resolves if dir is correctly deleted.
 
       
     
@@ -439,7 +439,8 @@ the temporary files folder (if doesn't exists)</p>
 
   
 
-  <p>Starts a backups</p>
+  <p>Start a backup process. Once the backup is done a zip file will be created
+with all backup genereted files.</p>
 
     <div class='pre p1 fill-light mt0'>backup(options: any): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
@@ -473,7 +474,7 @@ the temporary files folder (if doesn't exists)</p>
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
-        A promise object with the path to the backup zip file
+        A promise object with the path to the backup zip file.
 
       
     
@@ -507,7 +508,8 @@ the temporary files folder (if doesn't exists)</p>
 
   
 
-  <p>Sideload a backup database to the existing database</p>
+  <p>Sideload a backup database to the existing database.
+Once finished deletes the backup database automatically</p>
 
     <div class='pre p1 fill-light mt0'>loadBackup(): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></div>
   
@@ -528,7 +530,7 @@ the temporary files folder (if doesn't exists)</p>
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></code>:
-        a promise object that resolves once the database is correctly loaded
+        A promise object that resolves once the database is correctly loaded
 
       
     
@@ -562,7 +564,8 @@ the temporary files folder (if doesn't exists)</p>
 
   
 
-  <p>Starts a restore</p>
+  <p>Starts a restore. Loads a backup into a backup database, once finished deletes
+the restore directory.</p>
 
     <div class='pre p1 fill-light mt0'>restore(restore_path: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, fileName: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></div>
   
@@ -582,7 +585,7 @@ the temporary files folder (if doesn't exists)</p>
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>restore_path</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    The directory path of the backup zip file
+	    The directory path of the backup zip file.
 
           </div>
           
@@ -591,7 +594,7 @@ the temporary files folder (if doesn't exists)</p>
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>fileName</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    Name of backup the zip file
+	    Name of backup the zip file.
 
           </div>
           
@@ -606,8 +609,8 @@ the temporary files folder (if doesn't exists)</p>
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>></code>:
-        a promise object that resolves once the influxd restore
-restore command has load all datas in the backup database
+        A promise object that resolves once the influxd restore.
+restore command has load all datas in the backup database.
 
       
     
@@ -641,7 +644,7 @@ restore command has load all datas in the backup database
 
   
 
-  <p>Drops an influx database (if it exists)</p>
+  <p>Drops an influx database (if it exists).</p>
 
     <div class='pre p1 fill-light mt0'>dropDatabase(name: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></div>
   
@@ -661,7 +664,7 @@ restore command has load all datas in the backup database
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>name</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    The database name
+	    The database name.
 
           </div>
           
@@ -677,7 +680,7 @@ restore command has load all datas in the backup database
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></code>:
         A priomise object that resolves once the db is deleted correctly
-or even if it doesn't exists
+or even if it doesn't exists.
 
       
     
@@ -724,7 +727,7 @@ or even if it doesn't exists
   </div>
   
 
-  <p>Creates a queue for influxd commands</p>
+  <p>Creates a queue for influxd commands.</p>
 
     <div class='pre p1 fill-light mt0'>influxd(path: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, args: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>): <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></div>
   
@@ -744,7 +747,7 @@ or even if it doesn't exists
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>path</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    The cwd path of influxd command (the directory where the command will be executed)
+	    The cwd path of influxd command (the directory where the command will be executed).
 
           </div>
           
@@ -753,7 +756,7 @@ or even if it doesn't exists
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>args</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)</code>
-	    Array of args to pass to the influxd command
+	    Array of args to pass to the influxd command.
 
           </div>
           
@@ -768,7 +771,7 @@ or even if it doesn't exists
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
       <code><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise</a>&#x3C;<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean">boolean</a>></code>:
-        a promise object that resolves once the influxd command has finished
+        a promise object that resolves once the influxd command has finished.
 
       
     
@@ -803,7 +806,7 @@ or even if it doesn't exists
   </div>
   
 
-  <p>Spawn an influxd process and calls resolve once ended</p>
+  <p>Spawn an influxd process and calls resolve once ended.</p>
 
     <div class='pre p1 fill-light mt0'>spawnProcess(path: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>, args: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>, resolve: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>, reject: <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</div>
   
@@ -823,7 +826,7 @@ or even if it doesn't exists
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>path</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String">string</a>)</code>
-	    The cwd path of influxd command (the directory where the command will be executed)
+	    The cwd path of influxd command (the directory where the command will be executed).
 
           </div>
           
@@ -832,7 +835,7 @@ or even if it doesn't exists
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>args</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Array">Array</a>)</code>
-	    Array of args to pass to the influxd command
+	    Array of args to pass to the influxd command.
 
           </div>
           
@@ -841,7 +844,7 @@ or even if it doesn't exists
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>resolve</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code>
-	    Function to call once the command has finished
+	    Function to call once the command has finished.
 
           </div>
           
@@ -850,7 +853,7 @@ or even if it doesn't exists
         <div class='space-bottom0'>
           <div>
             <span class='code bold'>reject</span> <code class='quiet'>(<a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function</a>)</code>
-	    Function to call in case of errors
+	    Function to call in case of errors.
 
           </div>
           
