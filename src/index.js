@@ -13,6 +13,9 @@ const logger = require('debug')('influx-backup:BackupManager');
  * Backup manager instance.
  * @constructor
  * @param {Object} config Manager object configuration.
+ * @param {string} config.db The name of the database
+ * @param {string} [config.username] InfluxDB user username
+ * @param {string} [config.password] InfluxDB user password
  * @param {string} [config.host=localhost] Host url where influxdb is running.
  * @param {number} [config.port=8086] InfluxDB port.
  * @param {string} [config.tmp_folder=.tmp] Temporary folder path.
@@ -111,6 +114,7 @@ BackupManager.prototype.deleteDir = function(path){
 /**
  * Start a backup process. Once the backup is done a zip file will be created
  * with all backup genereted files.
+ * @param {Object} [options] Backup options.
  * @param {Date} [options.start] Start date of the backup.
  * @param {Date} [options.end=new Date()] End date of the backup.
  * @param {string} [options.fileName] Custom output backup file name.
@@ -234,11 +238,11 @@ BackupManager.prototype.loadBackup = function(){
 }
 
 /**
- * Starts a restore. Loads a backup into a backup database, once finished deletes
+ * Start a restore. Loads a backup into a backup database, once finished deletes
  * the restore directory.
  * @param {string} restore_path The directory path of the backup zip file.
  * @param {string} fileName Name of backup the zip file.
- * @returns {Promise.<string>} A promise object that resolves once the influxd restore.
+ * @returns {Promise.<Boolean>} A promise object that resolves once the influxd
  * restore command has load all datas in the backup database.
  */
 BackupManager.prototype.restore = function(restore_path, fileName){
