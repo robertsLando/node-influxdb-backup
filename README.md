@@ -1,12 +1,12 @@
-# node-influxdb-backup
+# influx-backup
 
-[![NPM version](http://img.shields.io/npm/v/node-influxdb-backup.svg)](https://www.npmjs.com/package/node-influxdb-backup)
-[![Downloads](https://img.shields.io/npm/dm/node-influxdb-backup.svg)](https://www.npmjs.com/package/node-influxdb-backup)
+[![NPM version](http://img.shields.io/npm/v/influx-backup.svg)](https://www.npmjs.com/package/influx-backup)
+[![Downloads](https://img.shields.io/npm/dm/influx-backup.svg)](https://www.npmjs.com/package/influx-backup)
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square)](http://makeapullrequest.com)
 [![MIT Licence](https://badges.frapsoft.com/os/mit/mit.png?v=103)](https://opensource.org/licenses/mit-license.php)
 
-[![NPM](https://nodei.co/npm/node-influxdb-backup.png?downloads=true)](https://nodei.co/npm/node-influxdb-backup/)
+[![NPM](https://nodei.co/npm/influx-backup.png?downloads=true)](https://nodei.co/npm/influx-backup/)
 
 # Description
 
@@ -23,12 +23,12 @@ Uses InfluxDB portable backups introduced in InfluxDb v1.5, check [docs](https:/
 
 Run the following command in the root directory of your project
 
-    npm install node-influxdb-backup --save
+    npm install influx-backup --save
 
 
 # Usage
 
-Check [here](https://robertslando.github.io/node-influxdb-backup/) and the example in [examples](https://github.com/robertsLando/node-influxdb-backup/tree/master/examples) folder
+Check [here](https://robertslando.github.io/influx-backup/) and the example in [examples](https://github.com/robertsLando/influx-backup/tree/master/examples) folder
 
 Here are some lines from `examples/app.js`
 

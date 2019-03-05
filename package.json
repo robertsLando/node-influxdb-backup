@@ -1,5 +1,5 @@
 {
-  "name": "influxdb-backup",
+  "name": "influx-backup",
   "version": "1.0.0",
   "description": "Influxdb backup/restore helper",
   "main": "./src/index.js",
