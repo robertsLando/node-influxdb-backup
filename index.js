@@ -48,11 +48,15 @@ BackupManager.prototype.init = function(){
       password: config.password,
     });
 
-    influx.ping(5000).then(hosts => {
+    influx.ping(5000)
+    .then(hosts => {
       var local = hosts.find(h => h.url.hostname == config.host && h.url.port == config.port);
 
       if(!local || !local.online || !local.version){
-        throw `Influx DB is not running on ${config.host}:${config.port}`;
+        throw Error(`Influx DB is not running on ${config.host}:${config.port}`);
+      }
+      else if(require('semver').lt(local.version, '1.5.0')){
+        throw Error(`Influx DB version is lower than 1.5.0`);
       }else{
         logger(`InfluxDB version: ${local.version}`)
       }
