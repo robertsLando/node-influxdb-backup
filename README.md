@@ -13,18 +13,19 @@
 NodeJS module for InfluxDB backup/restore. This module allows to backup an InfluxDB database by creating a zip file with all backup files generated with the `influxd` shell command.
 
 **REQUIREMENTS**
-**influxd bin must be installed in your system**
-**works only with InfluxDB > v1.5**
 
-Check influx db [portable backups](https://docs.influxdata.com/influxdb/v1.7/administration/backup_and_restore/#online-backup-and-restore-for-influxdb-oss) docs for more info.
+- `influxd` bin must be installed in your system. Check it by running `which influxd` command
+- Works only with **InfluxDB > v1.5**
+
+Uses InfluxDB portable backups introduced in InfluxDb v1.5, check [docs](https://docs.influxdata.com/influxdb/v1.7/administration/backup_and_restore/#online-backup-and-restore-for-influxdb-oss) for more info.
 
 # Install
 
-Run the following command in the root directory of your Node-RED install
+Run the following command in the root directory of your project
 
     npm install node-influxdb-backup --save
 
 
 # Usage
 
-Check example on example folder
+Check [here](https://robertslando.github.io/node-influxdb-backup/) and the example in [examples](https://github.com/robertsLando/node-influxdb-backup/tree/master/examples) folder.
